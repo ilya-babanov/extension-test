@@ -1,0 +1,25 @@
+{
+    "name": "Test extension",
+    "manifest_version": 2,
+    "version": "0.1",
+
+    "permissions": [
+        "storage"
+    ],
+
+    "content_scripts": [
+        {
+            "matches": ["http://*/*", "https://*/*"],
+            "js": ["content-script.js"]
+        }
+    ],
+
+    "background": {
+        "scripts": ["background-script.js"]
+    },
+
+    "browser_action": {
+        "default_popup": "popup.html"
+    }
+
+}
