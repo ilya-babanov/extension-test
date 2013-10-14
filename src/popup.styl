@@ -1,10 +1,26 @@
+popupWidth = 400px
+popupHeight = 500px
+
+*
+  box-sizing border-box
+
 body
-  width 300px
-  height 400px
+  width popupWidth
+  height popupHeight
   overflow auto
 
-.title
+.statTitle
   text-align center
+  font-size 22px
+  font-weight bold
 
-table
+.statTable
   margin auto
+  text-align center
+  border-collapse: collapse;
+  th, td
+    min-width (popupWidth/4)
+    max-width (popupWidth/3)
+    word-wrap break-word
+    border: 1px solid #cecece;
+    padding 0 4px

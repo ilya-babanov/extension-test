@@ -1,37 +1,40 @@
 var hostName = window.location.hostname,
+    currentTime = new Date(),
     hostStats = {
         hostName: hostName,
-        date: new Date(),
+        lastTime: getPrettyTime(currentTime),
         clicks: 0
-    },
-    storageObject = null;
+    };
 
-
-chrome.storage.local.get('statistic', function(stat){
-    storageObject = stat;
-    if (storageObject.statistic[hostName]) {
-        hostStats = storageObject.statistic[hostName];
+chrome.storage.local.get(hostName, function(storageHostStats){
+    console.log("Get: ", storageHostStats);
+    if (storageHostStats[hostName] === hostName) {
+        hostStats = storageHostStats;
     } else {
-        storageObject.statistic[hostName] = hostStats;
-        setStatsToStorage(hostStats);
+        setStatsToStorage(hostName, hostStats);
     }
 });
 
 
-function setStatsToStorage(stats){
-    storageObject.statistic[hostName] = stats;
-    chrome.storage.local.set(storageObject, function(){
-        console.log('set: ', storageObject);
+function setStatsToStorage(hostName, stats){
+    var objectToSave = {};
+    objectToSave[hostName] = stats;
+    chrome.storage.local.set(objectToSave, function(){
+        console.log('Set: ', objectToSave);
     });
+}
+
+function getPrettyTime(date) {
+    if (!date || !(date instanceof Date)) {
+        date = new Date();
+    }
+    return date.toTimeString().split(' ')[0]
 }
 
 
 window.addEventListener('click', onClick);
 function onClick() {
-    var newDate = new Date();
     hostStats.clicks++;
-    hostStats.date = newDate.getHours() + ":" + newDate.getMinutes();
-    if (storageObject) {
-        setStatsToStorage(hostStats);
-    }
+    hostStats.lastTime = getPrettyTime(currentTime);
+    setStatsToStorage(hostName, hostStats);
 }

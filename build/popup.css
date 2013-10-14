@@ -1,3 +1,5 @@
-body{width:300px;height:400px;overflow:auto}
-.title{text-align:center}
-table{margin:auto}
+*{box-sizing:border-box}
+body{width:400px;height:500px;overflow:auto}
+.statTitle{text-align:center;font-size:22px;font-weight:bold}
+.statTable{margin:auto;text-align:center;border-collapse:collapse;}
+.statTable th,.statTable td{min-width:100px;max-width:133.33333333333334px;word-wrap:break-word;border:1px solid #cecece;padding:0 4px}
