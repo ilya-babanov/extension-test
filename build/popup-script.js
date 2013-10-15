@@ -1,7 +1,6 @@
-var storage = chrome.storage.local,
-    table = document.querySelector('.statTable tbody');
+var table = document.querySelector('.statTable tbody');
 
-storage.get(null, function(storageObject){
+chrome.runtime.sendMessage({type: 'getStats'}, function(storageObject) {
     console.log("Get: ", storageObject);
     var index = 0;
     for (var host in storageObject){
@@ -12,8 +11,32 @@ storage.get(null, function(storageObject){
                 dateCell = row.insertCell(1),
                 clicksCell = row.insertCell(2);
             hostCell.innerText = hostStat.hostName;
-            dateCell.innerText  = hostStat.lastTime;
+            dateCell.innerText  = getPrettyTime(hostStat.lastTime);
             clicksCell.innerText = hostStat.clicks;
         }
     }
 });
+
+
+/**
+ * Create pretty formatted date from milliseconds
+ * @param {number|string} ms
+ * @returns {string}
+ */
+function getPrettyTime(ms) {
+    if (ms != null) {
+        var date = new Date(ms);
+        return addZero(date.getHours()) + ':' + addZero(date.getMinutes());
+    } else {
+        return '';
+    }
+}
+
+/**
+ * Add leading zero if number < 10
+ * @param {number} number
+ * @returns {string}
+ */
+function addZero(number) {
+    return number < 10 ? '0'+number : ''+number
+}
