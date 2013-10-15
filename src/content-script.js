@@ -21,5 +21,5 @@ window.addEventListener('click', onClick);
 function onClick() {
     hostStats.clicks++;
     hostStats.lastTime = currentTime.valueOf();
-    sendStats();
+    sendStats(hostStats);
 }
