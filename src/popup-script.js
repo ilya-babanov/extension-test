@@ -1,20 +1,9 @@
-var table = document.querySelector('.statTable tbody');
 
-chrome.runtime.sendMessage({type: 'getStats'}, function(storageObject) {
+(chrome.runtime.sendMessage || chrome.extension.sendMessage)({type: 'getStats'}, function(storageObject) {
     console.log("Get: ", storageObject);
-    var index = 0;
-    for (var host in storageObject){
-        if (storageObject.hasOwnProperty(host)) {
-            var hostStat = storageObject[host],
-                row = table.insertRow(index++),
-                hostCell = row.insertCell(0),
-                dateCell = row.insertCell(1),
-                clicksCell = row.insertCell(2);
-            hostCell.innerText = hostStat.hostName;
-            dateCell.innerText  = getPrettyTime(hostStat.lastTime);
-            clicksCell.innerText = hostStat.clicks;
-        }
-    }
+    var table = document.querySelector('.statContainer');
+
+    table.innerHTML = window["JST"]["src/table"]({'rows': storageObject, 'getPrettyTime': getPrettyTime});
 });
 
 
@@ -30,13 +19,13 @@ function getPrettyTime(ms) {
     } else {
         return '';
     }
+    /**
+     * Add leading zero if number < 10
+     * @param {number} number
+     * @returns {string}
+     */
+    function addZero(number) {
+        return number < 10 ? '0'+number : ''+number
+    }
 }
 
-/**
- * Add leading zero if number < 10
- * @param {number} number
- * @returns {string}
- */
-function addZero(number) {
-    return number < 10 ? '0'+number : ''+number
-}

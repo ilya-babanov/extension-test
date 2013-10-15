@@ -1,0 +1,14 @@
+
+table.statTable
+    thead
+        tr
+            th Site
+            th Time
+            th Clicks
+    tbody
+        each row in rows
+            tr
+                td= row.hostName
+                td= getPrettyTime(row.lastTime)
+                td= row.clicks
+

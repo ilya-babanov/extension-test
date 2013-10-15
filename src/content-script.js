@@ -11,7 +11,7 @@ var hostName = window.location.hostname,
  * @param stats
  */
 function sendStats(stats) {
-    chrome.runtime.sendMessage({type: 'setStats', data: stats}, function(response) {
+    (chrome.runtime.sendMessage || chrome.extension.sendMessage)({type: 'setStats', data: stats}, function(response) {
         console.log('content set callback: ',response);
     });
 }

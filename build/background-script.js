@@ -1,5 +1,6 @@
 
-chrome.runtime.onMessage.addListener(
+
+(chrome.runtime.onMessage || chrome.extension.onMessage).addListener(
     function(request, sender, sendResponse) {
         switch (request.type) {
             case 'setStats':
@@ -8,6 +9,8 @@ chrome.runtime.onMessage.addListener(
             case 'getStats':
                 getStats(sendResponse);
                 break;
+            default:
+                return false;
         }
         return true;
     });
